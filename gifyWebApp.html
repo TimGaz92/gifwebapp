@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<head>
+	<title>GIF Search Web App</title>
+</head>
+<body>
+<div id="full" class="container">
+    <h1 id="title">GIF search</h1>
+    <ul>
+    <li><p class="instructions"> Welcome to the Gif search app,</p></li>
+    <li><p class="instructions"> Start by adding a search term of your own to the list</p></li>
+   <li><p class="instructions"> This will activeate the other buttons and allow you to search Gifs at will</p></li>
+    </ul>
+    <hr>
+    <div id="gifResults"></div> <!--contains the button results -->
+    <form id="gifSearch">
+      <label for="searchBar"></label>
+      <input type="text" id="searchInput">
+      <br>
+      <input id="addGif" type="submit" value="add to list">
+    </form>
+	<hr id="borderRow"> <!--border between search bar and results -->
+</div> <!--end of container-->	
+<div id="userGifs" class="container"> <!--this will contain the GIF search results-->
+	 
+</div>
+
+<script type="text/javascript">
+
+	var gifs = ["Reactions", "Pandas", "Cats", "Dogs", "web developer", "bootcamp", ];
+  var userInput;
+//displaying gifs to div
+function displayGifs() {
+
+  var gifSRC = $(this).attr("title");
+  var searchURL = "http://api.giphy.com/v1/gifs/search?q=funny+" + gifSRC + "&limit=5&api_key=dc6zaTOxFJmzC";
+  //intentionally changed url so all results are funny
+
+$.ajax({url: searchURL,method: "GET"}).done(function(response) {
+    console.log("DONE WITH API");
+    console.log(searchURL);
+
+// Creates a div to hold the GIF info
+for (var i = 4; i >= 0; i--) {
+    var downsizedURL = response.data[i].images.fixed_height_small.url; 
+    var staticURL = response.data[i].images.fixed_height_small_still.url;
+    console.log("looping " + i);
+    var gifDiv = $("<img>").attr("src", downsizedURL);
+          //var gifDiv = $("<img>").attr("src", staticURL); 
+          gifDiv.addClass("clickableImg");
+          // var gifDiv = $("<div>").html("<button>this is a test</button> ");
+
+    gifDiv.attr("alt");
+    $("#userGifs").append(gifDiv);
+     console.log(downsizedURL);
+}//end of for loop
+$("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br> <hr>" );
+        //gives each gif div a clickable function to make it clickable
+        //on click changes the image to the animated gif
+       // $(".clickableImg").on("click", function(){
+       // gifDiv = $("<img>").attr("src", downsizedURL);
+       // console.log("clicks are working on gifs");
+       // console.log("src changed to " + downsizedURL);
+       // });
+
+  });//end of AJAX call
+}//end of display function
+
+//button and display functionality
+ function renderButtons() {
+  console.log("running render");
+  $("#gifResults").empty();
+  for (var i = gifs.length - 1; i >= 0; i--) {
+      var button  = $("<button>");
+      button.addClass("gifButton"); 
+      button.text(gifs[i]);
+      button.attr("title", gifs[i]);
+      console.log(button.title);
+      $("#gifResults").append(button);	
+  }//end of for loop
+ }//end of render function        
+  $("#addGif").on("click", function(event) {
+    console.log("search term added");
+    event.preventDefault();
+    userInput = $("#searchInput").val().trim();
+    gifs.push(userInput);
+    console.log(gifs);
+    renderButtons();
+    $("#searchInput").empty();
+    $(document).on("click", ".gifButton", displayGifs);
+    
+//add function to set still image here
+  });//end of addGif function
+renderButtons();
+
+
+
+       
+</script>
+</body>
+
+<style type="text/css">
+	#full{
+		background: blue;
+		border-color: black;
+	}
+	#title{
+		text-align: center;
+		color:white;
+		margin-color:black;
+
+	}
+	#userGifs{
+		background: grey;
+		border-top: 0;
+		margin: 0;
+		padding: 0;
+	}
+	#borderRow{
+		margin:0;
+		padding: 0;
+	}
+  .instructions{
+    color: white;
+  }
+
+</style>
+</html>

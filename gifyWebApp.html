@@ -46,8 +46,8 @@ for (var i = 4; i >= 0; i--) {
     var downsizedURL = response.data[i].images.fixed_height_small.url; 
     var staticURL = response.data[i].images.fixed_height_small_still.url;
     console.log("looping " + i);
-    var gifDiv = $("<img>").attr("src", downsizedURL);
-          //var gifDiv = $("<img>").attr("src", staticURL); 
+    // var gifDiv = $("<img>").attr("src", downsizedURL);
+          var gifDiv = $("<img>").attr("src", staticURL); 
           gifDiv.addClass("clickableImg");
           // var gifDiv = $("<div>").html("<button>this is a test</button> ");
 
@@ -58,11 +58,11 @@ for (var i = 4; i >= 0; i--) {
 $("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br> <hr>" );
         //gives each gif div a clickable function to make it clickable
         //on click changes the image to the animated gif
-       // $(".clickableImg").on("click", function(){
-       // gifDiv = $("<img>").attr("src", downsizedURL);
-       // console.log("clicks are working on gifs");
-       // console.log("src changed to " + downsizedURL);
-       // });
+       $(".clickableImg").on("click", function(){
+       gifDiv = $("<img>").attr("src", downsizedURL);
+       console.log("clicks are working on gifs");
+       console.log("src changed to " + downsizedURL);
+       });
 
   });//end of AJAX call
 }//end of display function

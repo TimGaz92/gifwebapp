@@ -12,7 +12,9 @@
     <li><p class="instructions"> Start by adding a search term of your own to the list</p></li>
    <li><p class="instructions"> This will activeate the other buttons and allow you to search Gifs at will</p></li>
     </ul>
+    <div id="previewDiv"><strong> Preview your Gif Here:</strong></div>
     <hr>
+
     <div id="gifResults"></div> <!--contains the button results -->
     <form id="gifSearch">
       <label for="searchBar"></label>
@@ -62,6 +64,7 @@ $("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br>
        gifDiv = $("<img>").attr("src", downsizedURL);
        console.log("clicks are working on gifs");
        console.log("src changed to " + downsizedURL);
+       $("#previewDiv").append(gifDiv);
        });
 
   });//end of AJAX call
@@ -123,6 +126,10 @@ renderButtons();
 	}
   .instructions{
     color: white;
+  }
+  #previewDiv{
+    color: white;
+    
   }
 
 </style>

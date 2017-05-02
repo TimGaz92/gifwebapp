@@ -11,8 +11,10 @@
     <li><p class="instructions"> Welcome to the Gif search app,</p></li>
     <li><p class="instructions"> Start by adding a search term of your own to the list</p></li>
    <li><p class="instructions"> This will activeate the other buttons and allow you to search Gifs at will</p></li>
+   <li><p class="instructions"> Clicking an image will allow you to preview it's animation in the preview bar</p></li>
     </ul>
-    <div id="previewDiv"><strong> Preview your Gif Here:</strong></div>
+    <hr>
+    <div id="previewDiv"><strong> Preview your Gifs Here:</strong></div>
     <hr>
 
     <div id="gifResults"></div> <!--contains the button results -->
@@ -52,7 +54,6 @@ for (var i = 4; i >= 0; i--) {
           var gifDiv = $("<img>").attr("src", staticURL); 
           gifDiv.addClass("clickableImg");
           // var gifDiv = $("<div>").html("<button>this is a test</button> ");
-
     gifDiv.attr("alt");
     $("#userGifs").append(gifDiv);
      console.log(downsizedURL);
@@ -60,12 +61,15 @@ for (var i = 4; i >= 0; i--) {
 $("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br> <hr>" );
         //gives each gif div a clickable function to make it clickable
         //on click changes the image to the animated gif
+        //append the animated image to the preview bar 
        $(".clickableImg").on("click", function(){
        gifDiv = $("<img>").attr("src", downsizedURL);
-       console.log("clicks are working on gifs");
+       // ?(this).attr("src", downsizedURL);//TRY THIS - doesn't work
+       console.log("clicks are working on gifs" + downsizedURL);
        console.log("src changed to " + downsizedURL);
        $("#previewDiv").append(gifDiv);
        });
+      
 
   });//end of AJAX call
 }//end of display function
@@ -73,8 +77,10 @@ $("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br>
 //button and display functionality
  function renderButtons() {
   console.log("running render");
+  //console log for debugging
   $("#gifResults").empty();
   for (var i = gifs.length - 1; i >= 0; i--) {
+  	//loops through all gifs and assigns clickable class and associated title 
       var button  = $("<button>");
       button.addClass("gifButton"); 
       button.text(gifs[i]);
@@ -82,7 +88,8 @@ $("#userGifs").append("<strong> you've searched for: " + gifSRC +"</strong> <br>
       console.log(button.title);
       $("#gifResults").append(button);	
   }//end of for loop
- }//end of render function        
+ }//end of render function     
+ //click functionality for each gif, moves them to preview area and changes src to moving image    
   $("#addGif").on("click", function(event) {
     console.log("search term added");
     event.preventDefault();
@@ -129,7 +136,6 @@ renderButtons();
   }
   #previewDiv{
     color: white;
-    
   }
 
 </style>
